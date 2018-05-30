@@ -148,21 +148,99 @@ predict(polylm, newdata, interval='predict')
 #an invalid point that needs to be discarded. (Further investigation is needed)
 
 
+#5
+
+car <- read_csv('C:\\Users\\Brian\\Desktop\\GradClasses\\Summer18\\621\\621problems\\marr\\cars04.csv')
+
+#a
+#While the regression appears linear, there are numerous areas of concern. The graph of the standardized residuals seems to show an increase in variance as
+#DealerCost increases. The Normal QQ plot shows non-normal distribution in the DealerCost. Specifically, there appears to be a few extreme upper outliers in price.
+#These points have high leverage although visual inspection indicates they may not be outliers.
+
+#b
+#The skewed distribution can be transformed to make the residuals normal and to help create constant variance in the residuals. This may also address
+#the few extreme upper outliers. 
+
+#An examination would need to determine whether the high leverage points are negatively impacting the regression and if so, which course of action may be appropriate
+
+#c
+
+#The variance of the residuals is now constant and the distirbution is less skewed. In addition by working with the log of each x and y, we present the data
+#in a more easy to digest fashion. That is, for each 1% increase in dealercost, there is rougly a 1% increase in suggested retail price. This would helpfully indicate
+#that dealers appears to push all additional costs onto the purchaser.
+
+#d
+#See above
+
+#e
+#The qq plot still shows upper and (more extreme) lower outliers. These few points fall so far out of the norm that they should be manually reviewed
+#to ensure they do not have any mistakes in them or whether some other interpretation is more appropriate.
+
+#6 (3)
+
+#In order to successfully use the inverse response plot the distribution of x must be an elliptically symmetric distribution. This would indicate that first
+#the x distribution would need to be transformed and then the y via the IRP. This would likely create a transformation close to the answer provided.
+
+#7
+
+#proof
+
+#8
+
+dia <- read_delim('C:\\Users\\Brian\\Desktop\\GradClasses\\Summer18\\621\\621problems\\marr\\diamonds.txt', delim='\t')
+
+#part 1
+
+#a
+
+ldia <- lm(Price ~ Size, dia)
+summary(ldia)
+
+ggplot(ldia, aes(Size, Price)) +
+  geom_point() +
+  geom_smooth(method='lm')
+
+plot(ldia)
+
+#b
+
+#The original plot appears linear. The residual plots show a non-constant variance and a small number of high leverage points.
+#Both price and size are heavily skewed. Both appear to need transforming
+
+ggplot() +
+  geom_density(aes(dia$Size))
+
+ggplot() +
+  geom_density(aes(dia$Price))
+
+#part 2
+
+#a
+
+tdia <- lm(sqrt(sqrt(Price)) ~ log(Size), dia)
+plot(tdia)
+
+ggplot(ldia, aes(log(Size), Price^0.25)) +
+  geom_point() +
+  geom_smooth(method='lm')
+
+
+boxplot(log(dia$Size))
+boxplot(sqrt(sqrt(dia$Price)))
+
+inverseResponsePlot(tdia)
+
+sumary(tdia)
+
+#I first transformed Size examining the boxplot with various transofmrations. Taking the log of price produced a roughly normal distribution
+#I then used an inverse response plot that indicated the 4th root of price would be a strong indicator
+
+#There are still outliers despite my transformations. The distirbutions are only very roughly normal.
 
 
 
+#part 3
 
-
-
-
-
-
-
-
-
-
-
-
-
+#The the second model has roughly normal distributions and roughly speaking a more constant variance, it is the superior model.
 
 
