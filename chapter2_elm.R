@@ -102,13 +102,13 @@ anova(l.p, l.p2)
 #There is no significant difference between the two models. THerefore insulin and tricpes were not meaningful predictors
 
 #e
-edf <- length(l.p$coefficients)
-n <- nobs(l.p, use.fallback = TRUE) #number of observations
+edf <- length(model.3$coefficients)
+n <- nobs(model.3, use.fallback = TRUE) #number of observations
 k <- 2 #standard for AIC
 n/k #if > 40 use AIC else use AICc
 MASS::stepAIC(l.p) #AIC
 MASS::stepAIC(l.p, k=log(nrow(pima.3))) #BIC
-MASS::stepAIC(l.p, k=(2*(edf+1)*(edf+2))/(n - edf -2)) #AICc
+MASS::stepAIC(model.3, k=(2*(edf+1)*(edf+2))/(n - edf -2)) #AICc
 
 #diabetes + pregnant + bmi +glucose
 
